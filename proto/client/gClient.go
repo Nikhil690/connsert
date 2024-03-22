@@ -10,8 +10,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/omec-project/config5g/logger"
-	protos "github.com/omec-project/config5g/proto/sdcoreConfig"
+	"github.com/Nikhil690/connsert/logger"
+	protos "github.com/Nikhil690/connsert/proto/sdcoreConfig"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/backoff"
 	"google.golang.org/grpc/connectivity"
