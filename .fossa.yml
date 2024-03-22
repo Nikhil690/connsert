@@ -11,10 +11,10 @@ version: 2
 cli:
   server: https://app.fossa.com
   fetcher: custom
-  project: config5g
+  project: connsert
 analyze:
   modules:
-  - name: config5g
+  - name: connsert
     type: raw
-    target: ../config5g
-    path: ../config5g
+    target: ../connsert
+    path: ../connsert
