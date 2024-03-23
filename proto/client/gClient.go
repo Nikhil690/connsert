@@ -92,7 +92,7 @@ func ConfigWatcher() chan *protos.NetworkSliceResponse {
 }
 
 func CreateChannel(host string, timeout uint32) ConfClient {
-	logger.GrpcLog.Infoln("create config client")
+	logger.GrpcLog.Infoln("Config Client : Creating")
 	// Second, check to see if we can reuse the gRPC connection for a new P4RT client
 	conn, err := newClientConnection(host)
 	if err != nil {
@@ -129,7 +129,7 @@ var retryPolicy = `{
 
 func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 	/* get connection */
-	logger.GrpcLog.Infoln("Dial grpc connection - ", host)
+	logger.GrpcLog.Infoln("Dialing GRPC Connection - ", host)
 
 	bd := 1 * time.Second
 	mltpr := 1.0
@@ -154,7 +154,7 @@ func (confClient *ConfigClient) GetConfigClientConn() *grpc.ClientConn {
 }
 
 func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.NetworkSliceResponse) {
-	logger.GrpcLog.Infoln("subscribeToConfigPod ")
+	logger.GrpcLog.Infoln("Subsricibing to Config POD")
 	myid := os.Getenv("HOSTNAME")
 	var stream protos.ConfigService_NetworkSliceSubscribeClient
 	for {
@@ -162,7 +162,7 @@ func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.Netwo
 			status := confClient.Conn.GetState()
 			var err error
 			if status == connectivity.Ready {
-				logger.GrpcLog.Infoln("connectivity ready ")
+				logger.GrpcLog.Infoln("Connectivity status: Ready")
 				rreq := &protos.NetworkSliceRequest{RestartCounter: selfRestartCounter, ClientId: myid, MetadataRequested: confClient.MetadataRequested}
 				if stream, err = confClient.Client.NetworkSliceSubscribe(context.Background(), rreq); err != nil {
 					logger.GrpcLog.Errorf("Failed to subscribe: %v", err)
@@ -173,12 +173,12 @@ func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.Netwo
 			} else if status == connectivity.Idle {
 				logger.GrpcLog.Errorf("connecting...")
 				time.Sleep(time.Second * 5)
-				continue
+				break
 			} else {
-				logger.GrpcLog.Errorf("Connectivity status not ready")
+				logger.GrpcLog.Errorf("Connectivity status: Not Ready")
 				time.Sleep(time.Second * 5)
 				continue
-			}
+			}	
 		}
 		rsp, err := stream.Recv()
 		if err != nil {
@@ -190,14 +190,14 @@ func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.Netwo
 			continue
 		}
 
-		logger.GrpcLog.Infoln("stream msg recieved ")
+		logger.GrpcLog.Infoln("Config Message received ")
 		logger.GrpcLog.Debugf("#Network Slices %v, RC of configpod %v ", len(rsp.NetworkSlice), rsp.RestartCounter)
 		if configPodRestartCounter == 0 || (configPodRestartCounter == rsp.RestartCounter) {
 			// first time connection or config update
 			configPodRestartCounter = rsp.RestartCounter
 			if len(rsp.NetworkSlice) > 0 {
 				// always carries full config copy
-				logger.GrpcLog.Infoln("First time config Received ", rsp)
+				logger.GrpcLog.Infoln("Initial Config Received ", rsp)
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
 				// config delete , all slices deleted
