@@ -173,10 +173,10 @@ func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.Netwo
 			} else if status == connectivity.Idle {
 				logger.GrpcLog.Errorf("connecting...")
 				time.Sleep(time.Second * 5)
-				break
+				continue
 			} else {
 				logger.GrpcLog.Errorf("Connectivity status: Not Ready")
-				time.Sleep(time.Second * 5)
+				time.Sleep(time.Second * 30)
 				continue
 			}	
 		}
