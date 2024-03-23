@@ -154,9 +154,12 @@ func (confClient *ConfigClient) GetConfigClientConn() *grpc.ClientConn {
 }
 
 func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.NetworkSliceResponse) {
-	logger.GrpcLog.Infoln("Subsricibing to Config POD")
+	logger.GrpcLog.Infoln("Subscribing to Config POD")
 	myid := os.Getenv("HOSTNAME")
 	var stream protos.ConfigService_NetworkSliceSubscribeClient
+
+	// Define a label for the outer loop
+retry:
 	for {
 		if stream == nil {
 			status := confClient.Conn.GetState()
@@ -176,14 +179,15 @@ func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.Netwo
 				continue
 			} else {
 				logger.GrpcLog.Errorf("Connectivity status: Not Ready")
-				time.Sleep(time.Second * 30)
-				continue
-			}	
+				time.Sleep(time.Second * 1)
+				// Restart the entire loop
+				goto retry
+			}
 		}
 		rsp, err := stream.Recv()
 		if err != nil {
 			logger.GrpcLog.Errorf("Failed to receive message: %v", err)
-			// Clearing the stream will force the client to resubscribe on next iteration
+			// Clearing the stream will force the client to resubscribe on the next iteration
 			stream = nil
 			time.Sleep(time.Second * 5)
 			// Retry on failure
