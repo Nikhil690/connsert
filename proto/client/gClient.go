@@ -139,7 +139,10 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 
 	crt := grpc.ConnectParams{Backoff: bc}
 	dialOptions := []grpc.DialOption{grpc.WithInsecure(), grpc.WithKeepaliveParams(kacp), grpc.WithDefaultServiceConfig(retryPolicy), grpc.WithConnectParams(crt)}
-	logger.GrpcLog.Infoln("Sleeping 30 seconds")
+	for i := 0; i < 30; i++ {
+		logger.GrpcLog.Infoln("Connecting to GRPC ...")
+		time.Sleep(time.Second)
+	}
 	time.Sleep(time.Second * 30)
 	conn, err = grpc.Dial(host, dialOptions...)
 
