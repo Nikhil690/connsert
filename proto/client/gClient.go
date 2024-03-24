@@ -143,7 +143,7 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 		logger.GrpcLog.Infoln("Connecting to GRPC ...")
 		// time.Sleep(time.Second)
 	}
-	// time.Sleep(time.Second * 30)
+	time.Sleep(time.Second * 30)
 	conn, err = grpc.Dial(host, dialOptions...)
 
 	if err != nil {
