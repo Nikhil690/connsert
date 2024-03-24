@@ -44,8 +44,8 @@ func init() {
 		log.Hooks.Add(selfLogHook)
 	}
 
-	CfgLog = log.WithFields(logrus.Fields{"component": "Config5g", "category": "CFG"})
-	GrpcLog = log.WithFields(logrus.Fields{"component": "Config5g", "category": "GRPC"})
+	CfgLog = log.WithFields(logrus.Fields{"component": "CONN", "category": "CFG"})
+	GrpcLog = log.WithFields(logrus.Fields{"component": "CONN", "category": "GRPC"})
 }
 
 func SetLogLevel(level logrus.Level) {
