@@ -207,6 +207,7 @@ retry:
 			if len(rsp.NetworkSlice) > 0 {
 				// always carries full config copy
 				logger.GrpcLog.Infoln("Initial Config Received ", rsp)
+				logger.GrpcLog.Infoln(rsp)
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
 				// config delete , all slices deleted
