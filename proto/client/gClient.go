@@ -141,7 +141,7 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 	dialOptions := []grpc.DialOption{grpc.WithInsecure(), grpc.WithKeepaliveParams(kacp), grpc.WithDefaultServiceConfig(retryPolicy), grpc.WithConnectParams(crt)}
 	for i := 0; i < 7; i++ {
 		logger.GrpcLog.Infoln("Connecting to GRPC ...")
-		time.Sleep(time.Second * 15)
+		time.Sleep(time.Second * 12)
 	}
 	// time.Sleep(time.Second * 60)
 	conn, err = grpc.Dial(host, dialOptions...)
@@ -209,10 +209,13 @@ retry:
 				logger.GrpcLog.Infoln("Initial Config Received: ")
 				logger.GrpcLog.Infoln(rsp)
 				fmt.Println("==============================")
-    			fmt.Printf("| %15s | %10s |\n", "Field", "Value")
-    			fmt.Println("|-----------------------------|")
-				fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
-				fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
+				fmt.Printf("| %15s |\n", "Network Slice")
+    			fmt.Println("|------------------------------|")
+				// fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
+				// fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
+				for _, slice := range rsp.NetworkSlice {
+					fmt.Printf("| %15s | %10s | %10s |\n", "", slice.Name, slice.Nssai)
+				}
 				fmt.Println("==============================")
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
