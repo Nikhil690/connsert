@@ -209,35 +209,37 @@ retry:
 				// always carries full config copy
 				logger.GrpcLog.Infoln("Initial Config Received: ")
 				// logger.GrpcLog.Infoln(rsp)
-				logger.GrpcLog.Info("=================================")
+				logger.GrpcLog.Info("================================================")
 				logger.GrpcLog.Infof("| %15s |\n", "Network Slice")
-				logger.GrpcLog.Infof("|------------------------------|")
+				logger.GrpcLog.Infof("|---------------------------------------------|")
 				// logger.GrpcLog.Infof("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
 				// logger.GrpcLog.Infof("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
 				for _, slice := range rsp.NetworkSlice {
-					logger.GrpcLog.Infof("|%19s  |%25s |\n", "Name", slice.Name)
-					logger.GrpcLog.Infof("|%19s  |%25s |\n", "Sst", slice.Nssai.Sst)
-					logger.GrpcLog.Infof("|%19s  |%25s |\n", "Sd", slice.Nssai.Sd)
+					logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "Name", slice.Name)
+					logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "Sst", slice.Nssai.Sst)
+					logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "Sd", slice.Nssai.Sd)
 					for _, group := range slice.DeviceGroup {
-						logger.GrpcLog.Infof("|%19s  |%25s |\n", "Device Group", group.Name)
-						logger.GrpcLog.Infof("|%19s  |%25s |\n", "IP Domain Details", group.IpDomainDetails.Name)
-						logger.GrpcLog.Infof("|%19s  |%25s |\n", "DNN Name", group.IpDomainDetails.DnnName)
-						logger.GrpcLog.Infof("|%19s  |%25s |\n", "UE Pool", group.IpDomainDetails.UePool)
-						logger.GrpcLog.Infof("|%19s  |%25s |\n", "DNS Primary", group.IpDomainDetails.DnsPrimary)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "MTU", group.IpDomainDetails.Mtu)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "DnnMbrUplink", group.IpDomainDetails.UeDnnQos.DnnMbrUplink)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "DnnMbrDownlink", group.IpDomainDetails.UeDnnQos.DnnMbrDownlink)
-						logger.GrpcLog.Infof("|%19s  |%25s |\n", "Traffic Class", group.IpDomainDetails.UeDnnQos.TrafficClass.Name)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "QCI", group.IpDomainDetails.UeDnnQos.TrafficClass.Qci)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "ARP", group.IpDomainDetails.UeDnnQos.TrafficClass.Arp)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "PDB", group.IpDomainDetails.UeDnnQos.TrafficClass.Pdb)
-						logger.GrpcLog.Infof("|%19s  |%25d |\n", "PELR", group.IpDomainDetails.UeDnnQos.TrafficClass.Pelr)
-					    logger.GrpcLog.Info("|------------------------------|")
+						logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "Device Group", group.Name)
+						logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "IP Domain Details", group.IpDomainDetails.Name)
+						logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "DNN Name", group.IpDomainDetails.DnnName)
+						logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "UE Pool", group.IpDomainDetails.UePool)
+						logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "DNS Primary", group.IpDomainDetails.DnsPrimary)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "MTU", group.IpDomainDetails.Mtu)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "DnnMbrUplink", group.IpDomainDetails.UeDnnQos.DnnMbrUplink)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "DnnMbrDownlink", group.IpDomainDetails.UeDnnQos.DnnMbrDownlink)
+						logger.GrpcLog.Infof("|%-18s  |%-21s |\n", "Traffic Class", group.IpDomainDetails.UeDnnQos.TrafficClass.Name)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "QCI", group.IpDomainDetails.UeDnnQos.TrafficClass.Qci)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "ARP", group.IpDomainDetails.UeDnnQos.TrafficClass.Arp)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "PDB", group.IpDomainDetails.UeDnnQos.TrafficClass.Pdb)
+						logger.GrpcLog.Infof("|%-18s  |%-21d |\n", "PELR", group.IpDomainDetails.UeDnnQos.TrafficClass.Pelr)
+						for _, imdetails := range group.Imsi {
+							logger.GrpcLog.Infof("|%-19s  |%-25s |\n", "Name", imdetails)
+						}
+					    logger.GrpcLog.Info("|---------------------------------------------|")
 					}
-					logger.GrpcLog.Info("|------------------------------|")
-
+					logger.GrpcLog.Info("|---------------------------------------------|")
 				}
-				logger.GrpcLog.Info("==============================")
+				logger.GrpcLog.Info("================================================")
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
 				// config delete , all slices deleted
