@@ -9,7 +9,7 @@ import (
 	"math/rand"
 	"os"
 	"time"
-
+	"fmt"
 	"github.com/Nikhil690/connsert/logger"
 	protos "github.com/Nikhil690/connsert/proto/sdcoreConfig"
 	"google.golang.org/grpc"
@@ -139,9 +139,9 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 
 	crt := grpc.ConnectParams{Backoff: bc}
 	dialOptions := []grpc.DialOption{grpc.WithInsecure(), grpc.WithKeepaliveParams(kacp), grpc.WithDefaultServiceConfig(retryPolicy), grpc.WithConnectParams(crt)}
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 7; i++ {
 		logger.GrpcLog.Infoln("Connecting to GRPC ...")
-		time.Sleep(time.Second * 20)
+		time.Sleep(time.Second * 15)
 	}
 	// time.Sleep(time.Second * 60)
 	conn, err = grpc.Dial(host, dialOptions...)
@@ -162,7 +162,7 @@ func (confClient *ConfigClient) subscribeToConfigPod(commChan chan *protos.Netwo
 	logger.GrpcLog.Infoln("Subscribing to Config POD")
 	myid := os.Getenv("HOSTNAME")
 	var stream protos.ConfigService_NetworkSliceSubscribeClient
-
+	var rst protos.NetworkSliceResponse
 	// Define a label for the outer loop
 retry:
 	for {
@@ -206,8 +206,14 @@ retry:
 			configPodRestartCounter = rsp.RestartCounter
 			if len(rsp.NetworkSlice) > 0 {
 				// always carries full config copy
-				logger.GrpcLog.Infoln("Initial Config Received ", rsp)
+				logger.GrpcLog.Infoln("Initial Config Received: ")
 				logger.GrpcLog.Infoln(rsp)
+				fmt.Println("==============================")
+    			fmt.Printf("| %15s | %10s |\n", "Field", "Value")
+    			fmt.Println("|-----------------------------|")
+				fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
+				fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
+				fmt.Println("==============================")
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
 				// config delete , all slices deleted
