@@ -6,10 +6,11 @@ package client
 
 import (
 	context "context"
+	// "fmt"
 	"math/rand"
 	"os"
 	"time"
-	"fmt"
+
 	"github.com/Nikhil690/connsert/logger"
 	protos "github.com/Nikhil690/connsert/proto/sdcoreConfig"
 	"google.golang.org/grpc"
@@ -207,17 +208,20 @@ retry:
 			if len(rsp.NetworkSlice) > 0 {
 				// always carries full config copy
 				logger.GrpcLog.Infoln("Initial Config Received: ")
-				logger.GrpcLog.Infoln(rsp)
-				fmt.Println("==============================")
-				fmt.Printf("| %15s \t\t |\n", "Network Slice")
-    				fmt.Println("|------------------------------|")
-				// fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
-				// fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
+				// logger.GrpcLog.Infoln(rsp)
+				logger.GrpcLog.Info("==============================")
+				logger.GrpcLog.Infof("| %15s \t\t |\n", "Network Slice")
+				logger.GrpcLog.Infof("|------------------------------|")
+				// logger.GrpcLog.Infof("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
+				// logger.GrpcLog.Infof("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
 				for _, slice := range rsp.NetworkSlice {
-					fmt.Printf("| %15s | %10s |\n", "Name", slice.Name)
-					fmt.Printf("| %15s | %10s |\n", "Name", slice.Nssai)
+					logger.GrpcLog.Infof("|%15s  |%10s |\n", "Name", slice.Name)
+					logger.GrpcLog.Infof("|%15s  |%10s |\n", "Sst", slice.Nssai.Sst)
+					logger.GrpcLog.Infof("|%15s  |%10s |\n", "Sd", slice.Nssai.Sd)
+					logger.GrpcLog.Info("|------------------------------|")
+
 				}
-				fmt.Println("==============================")
+				logger.GrpcLog.Info("==============================")
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
 				// config delete , all slices deleted
