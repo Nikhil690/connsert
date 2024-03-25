@@ -218,6 +218,21 @@ retry:
 					logger.GrpcLog.Infof("|%15s  |%10s |\n", "Name", slice.Name)
 					logger.GrpcLog.Infof("|%15s  |%10s |\n", "Sst", slice.Nssai.Sst)
 					logger.GrpcLog.Infof("|%15s  |%10s |\n", "Sd", slice.Nssai.Sd)
+					for _, group := range slice.DeviceGroup {
+						logger.GrpcLog.Infof("|%15s  |%10s |\n", "Device Group", group.Name)
+						logger.GrpcLog.Infof("|%15s  |%10s |\n", "IP Domain Details", group.IpDomainDetails.Name)
+						logger.GrpcLog.Infof("|%15s  |%10s |\n", "DNN Name", group.IpDomainDetails.DnnName)
+						logger.GrpcLog.Infof("|%15s  |%10s |\n", "UE Pool", group.IpDomainDetails.UePool)
+						logger.GrpcLog.Infof("|%15s  |%10s |\n", "DNS Primary", group.IpDomainDetails.DnsPrimary)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "MTU", group.IpDomainDetails.Mtu)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "DnnMbrUplink", group.IpDomainDetails.UeDnnQos.DnnMbrUplink)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "DnnMbrDownlink", group.IpDomainDetails.UeDnnQos.DnnMbrDownlink)
+						logger.GrpcLog.Infof("|%15s  |%10s |\n", "Traffic Class", group.IpDomainDetails.UeDnnQos.TrafficClass.Name)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "QCI", group.IpDomainDetails.UeDnnQos.TrafficClass.Qci)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "ARP", group.IpDomainDetails.UeDnnQos.TrafficClass.Arp)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "PDB", group.IpDomainDetails.UeDnnQos.TrafficClass.Pdb)
+						logger.GrpcLog.Infof("|%15s  |%10d |\n", "PELR", group.IpDomainDetails.UeDnnQos.TrafficClass.Pelr)
+					}
 					logger.GrpcLog.Info("|------------------------------|")
 
 				}
