@@ -210,7 +210,7 @@ retry:
 				logger.GrpcLog.Infoln("Initial Config Received: ")
 				// logger.GrpcLog.Infoln(rsp)
 				logger.GrpcLog.Info("================================================")
-				logger.GrpcLog.Infof("| %37s |\n", "Network Slice")
+				logger.GrpcLog.Infof("| %-41s |\n", "Network Slice")
 				logger.GrpcLog.Infof("|---------------------------------------------|")
 				// logger.GrpcLog.Infof("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
 				// logger.GrpcLog.Infof("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
