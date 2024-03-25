@@ -211,8 +211,13 @@ retry:
 				fmt.Println("==============================")
     			fmt.Printf("| %15s | %10s |\n", "Field", "Value")
     			fmt.Println("|-----------------------------|")
+<<<<<<< HEAD
 				fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
 				fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
+=======
+				fmt.Printf("| %15s | %10d |\n", "RestartCounter", rst.RestartCounter)
+				fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rst.ConfigUpdated)
+>>>>>>> 90413e5ad2628879048b179fbe5192ba21199c26
 				fmt.Println("==============================")
 				commChan <- rsp
 			} else if rsp.ConfigUpdated == 1 {
