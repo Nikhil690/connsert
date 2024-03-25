@@ -209,12 +209,13 @@ retry:
 				logger.GrpcLog.Infoln("Initial Config Received: ")
 				logger.GrpcLog.Infoln(rsp)
 				fmt.Println("==============================")
-				fmt.Printf("| %15s |\n", "Network Slice")
+				fmt.Printf("| %15s \t\t |\n", "Network Slice")
     				fmt.Println("|------------------------------|")
 				// fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
 				// fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
 				for _, slice := range rsp.NetworkSlice {
-					fmt.Printf("| %15s | %10s | %10s |\n", "", slice.Name, slice.Nssai)
+					fmt.Printf("| %15s | %10s |\n", "Name", slice.Name)
+					fmt.Printf("| %15s | %10s |\n", "Name", slice.Nssai)
 				}
 				fmt.Println("==============================")
 				commChan <- rsp
