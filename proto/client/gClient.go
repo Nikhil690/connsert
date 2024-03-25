@@ -210,7 +210,7 @@ retry:
 				logger.GrpcLog.Infoln(rsp)
 				fmt.Println("==============================")
 				fmt.Printf("| %15s |\n", "Network Slice")
-    			fmt.Println("|------------------------------|")
+    				fmt.Println("|------------------------------|")
 				// fmt.Printf("| %15s | %10d |\n", "RestartCounter", rsp.RestartCounter)
 				// fmt.Printf("| %15s | %10d |\n", "ConfigUpdated", rsp.ConfigUpdated)
 				for _, slice := range rsp.NetworkSlice {
