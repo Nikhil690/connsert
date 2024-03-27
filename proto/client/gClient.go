@@ -140,34 +140,7 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 
 	crt := grpc.ConnectParams{Backoff: bc}
 	dialOptions := []grpc.DialOption{grpc.WithInsecure(), grpc.WithKeepaliveParams(kacp), grpc.WithDefaultServiceConfig(retryPolicy), grpc.WithConnectParams(crt)}
-	spin := []string{
-		"▐|\\____________▌",
-		"▐_|\\___________▌",
-		"▐__|\\__________▌",
-		"▐___|\\_________▌",
-		"▐____|\\________▌",
-		"▐_____|\\_______▌",
-		"▐______|\\______▌",
-		"▐_______|\\_____▌",
-		"▐________|\\____▌",
-		"▐_________|\\___▌",
-		"▐__________|\\__▌",
-		"▐___________|\\_▌",
-		"▐____________|\\▌",
-		"▐____________/|▌",
-		"▐___________/|_▌",
-		"▐__________/|__▌",
-		"▐_________/|___▌",
-		"▐________/|____▌",
-		"▐_______/|_____▌",
-		"▐______/|______▌",
-		"▐_____/|_______▌",
-		"▐____/|________▌",
-		"▐___/|_________▌",
-		"▐__/|__________▌",
-		"▐_/|___________▌",
-		"▐/|____________▌",
-	} // Define spinner animation components
+	spin := []string{".     ", " .    ", "  .   ", "   .  ", "    . ", "     ."} // Define spinner animation components
 
 	for i := 0; i < 960; i++ {
 		color := "\033[1;34m" // Blue color (change to the desired color code)
