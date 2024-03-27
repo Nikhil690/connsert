@@ -6,7 +6,7 @@ package client
 
 import (
 	context "context"
-	// "fmt"
+	"fmt"
 	"math/rand"
 	"os"
 	"time"
@@ -140,9 +140,41 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 
 	crt := grpc.ConnectParams{Backoff: bc}
 	dialOptions := []grpc.DialOption{grpc.WithInsecure(), grpc.WithKeepaliveParams(kacp), grpc.WithDefaultServiceConfig(retryPolicy), grpc.WithConnectParams(crt)}
-	for i := 0; i < 7; i++ {
-		logger.GrpcLog.Infoln("Connecting to GRPC ...")
-		time.Sleep(time.Second * 10)
+	spin := []string{
+		"▐|\\____________▌",
+		"▐_|\\___________▌",
+		"▐__|\\__________▌",
+		"▐___|\\_________▌",
+		"▐____|\\________▌",
+		"▐_____|\\_______▌",
+		"▐______|\\______▌",
+		"▐_______|\\_____▌",
+		"▐________|\\____▌",
+		"▐_________|\\___▌",
+		"▐__________|\\__▌",
+		"▐___________|\\_▌",
+		"▐____________|\\▌",
+		"▐____________/|▌",
+		"▐___________/|_▌",
+		"▐__________/|__▌",
+		"▐_________/|___▌",
+		"▐________/|____▌",
+		"▐_______/|_____▌",
+		"▐______/|______▌",
+		"▐_____/|_______▌",
+		"▐____/|________▌",
+		"▐___/|_________▌",
+		"▐__/|__________▌",
+		"▐_/|___________▌",
+		"▐/|____________▌",
+	} // Define spinner animation components
+
+	for i := 0; i < 960; i++ {
+		color := "\033[1;34m" // Blue color (change to the desired color code)
+		reset := "\033[0m"    // Reset color
+		currentTime := time.Now().UTC().Format("2006-01-02T15:04:05Z")
+		fmt.Printf("\r%s %s[INFO][CONN][GRPC]%s Connecting to %sGRPC",currentTime, color, reset, spin[i%len(spin)])
+		time.Sleep(100 * time.Millisecond)
 	}
 	// time.Sleep(time.Second * 60)
 	conn, err = grpc.Dial(host, dialOptions...)
