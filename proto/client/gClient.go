@@ -233,8 +233,12 @@ retry:
 						// logger.GrpcLog.Infof("| %-18s  | %-21d |\n", "ARP", group.IpDomainDetails.UeDnnQos.TrafficClass.Arp)
 						// logger.GrpcLog.Infof("| %-18s  | %-21d |\n", "PDB", group.IpDomainDetails.UeDnnQos.TrafficClass.Pdb)
 						// logger.GrpcLog.Infof("| %-18s  | %-21d |\n", "PELR", group.IpDomainDetails.UeDnnQos.TrafficClass.Pelr)
-						for _, imdetails := range group.Imsi {
-							logger.GrpcLog.Infof("| %-18s  | %-21s |\n", "IMSI Supported", imdetails)
+						for i, imdetails := range group.Imsi {
+							label := ""
+							if i == len(group.Imsi)/2 {
+								label = "IMSI_LIST"
+							}
+							logger.GrpcLog.Infof("| %-18s  | %-21s |\n", label, imdetails)
 						}
 						logger.GrpcLog.Info("|---------------------------------------------|")
 					}
