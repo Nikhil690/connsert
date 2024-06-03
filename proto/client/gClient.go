@@ -150,7 +150,7 @@ func newClientConnection(host string) (conn *grpc.ClientConn, err error) {
 	// }
 	// time.Sleep(time.Second * 60)
 	for i := 0; i < 8; i++ {
-		logger.GrpcLog.Infoln("Connecting to GRPC ...")
+		logger.GrpcLog.Infoln("Waiting for GRPC server to be ready ...")
 		time.Sleep(time.Second * 10)
 	}
 	conn, err = grpc.Dial(host, dialOptions...)
@@ -188,12 +188,12 @@ retry:
 					continue
 				}
 			} else if status == connectivity.Idle {
-				logger.GrpcLog.Errorf("connecting...")
+				logger.GrpcLog.Errorf("Connectivity status: Idle")
 				time.Sleep(time.Second * 5)
 				continue
 			} else {
-				logger.GrpcLog.Errorf("Connectivity status: Not Ready")
-				time.Sleep(time.Second * 1)
+				logger.GrpcLog.Errorf("Connectivity status: Not Ready : Retrying in 5s")
+				time.Sleep(time.Second * 5)
 				// Restart the entire loop
 				goto retry
 			}
